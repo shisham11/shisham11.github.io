@@ -31,9 +31,17 @@
         <h5 id="followerInfo"></h5>
         <p> Find me on <a id="githubLink">Github</a>
         </p>
+        
+
+        
         <p>The following is my LinkedIn profile:</p>
         <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:6772195964913520641" height="715" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
-        <script>
+        <p>My Projects are: <a id ="repoList"></a></p>
+</div> 
+
+
+<script>
+        
     fetch("https://api.github.com/users/shisham11")
         .then(response => response.json())
         .then(function(data){
@@ -48,6 +56,23 @@
             document.getElementById("mainContainer").hidden = false
             document.getElementById("loading").hidden=true
         })
+  
+    fetch("https://api.github.com/users/shisham11/repos")
+        .then(response =>response.json())
+        .then(function(data){
+        console.log(data)
+        let m = data.length;
+        var n = parseInt(m);
+        let repoName = "";
+        for(i = 0;i < n; i++ )
+        {
+        repoName += " Repo " + i +" "+ data[i]['name'] +"<br>"+ "<br>";
+        }
+
+        document.getElementById('repoList').innerHTML = repoName
+        })
+
+
 </script>
 
 
