@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <meta charset="UTF-8">
+    <title>My Portfolio</title>
+    <style>
+        .main{
+            text-align: center;
+            
+        }
+        #loading{
+            text-align: center;
+        }
+        
+    </style>
+</head>
+<body>
+<div id="loading">
+    <img src="https://cdn.dribbble.com/users/1186261/screenshots/3718681/_______.gif">
+</div>
+<div class="main" id="mainContainer" hidden>
+    <img 
+    
+    height="190"
+    width="190"
+    id="profileImage"
+    >
+   
+        <h2 id="userName"></h2>
+        <p id="bio"></p>
+        <h5 id="followerInfo"></h5>
+        <p> Find me on <a id="githubLink">Github</a>
+        </p>
+        
+
+        
+        <p>The following is my LinkedIn profile:</p>
+        <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:6772195964913520641" height="715" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+        <p>My Projects are: <a id ="repoList"></a></p>
+</div> 
+
+
+<script>
+        
+    fetch("https://api.github.com/users/shisham11")
+        .then(response => response.json())
+        .then(function(data){
+            console.log(data)
+            let followersCount=data["followers"]
+            let followersInfo=`I have ${followersCount} followers on Github`
+            document.getElementById("profileImage").src=data["avatar_url"]
+            document.getElementById("userName").textContent=data["name"]
+            document.getElementById("bio").textContent=data["bio"]
+            document.getElementById("followerInfo").textContent=followersInfo
+            document.getElementById("githubLink").href=data["html_url"]
+            document.getElementById("mainContainer").hidden = false
+            document.getElementById("loading").hidden=true
+        })
+  
+    fetch("https://api.github.com/users/shisham11/repos")
+        .then(response =>response.json())
+        .then(function(data){
+        console.log(data)
+        let m = data.length;
+        var n = parseInt(m);
+        let repoName = "";
+        for(i = 0;i < n; i++ )
+        {
+        repoName += " Repo " + i +" "+ data[i]['name'] +"<br>"+ "<br>";
+        }
+
+        document.getElementById('repoList').innerHTML = repoName
+        })
+
+
+</script>
+
+
+
+</body>
+</html>
